@@ -1,0 +1,610 @@
+---
+title: "Homework_Assignment_3_nsangani"
+author: "Neel Sangani"
+date: "2022-12-10"
+output: pdf_document
+---
+
+\begin{small} 
+
+Total points: 400 points
+
+\textbf{Problem set policies.} \textit{Please provide concise, clear answers for each question. Note that only writing the result of a calculation (e.g., "SD = 3.3") without explanation is not sufficient. For problems involving \emph{\textsf{R}}, include the code in your solution, along with any plots.} 
+		
+\textit{Please submit your problem set via Canvas as a PDF, along with the R Markdown source file.} 
+		
+\textit{We encourage you to discuss problems with other students (and, of course, with the course head and the TFs), but you must write your final answer in your own words. Solutions prepared "in committee" are not acceptable. If you do collaborate with classmates on a problem, please list your collaborators on your solution.}
+
+\end{small} 
+
+
+## Unit 4
+
+### Problem 1. (20 points)
+
+In vertebrates, sweet and savory ("umami") tastes are sensed by receptors termed T1Rs. Most vertebrates have three T1Rs, with T1R2 and T1R3 receptors working together to detect sugars (carbohydrates) and artificial sweeteners, while the T1R1-T1R3 heterodimer mediates umami taste. However, even though birds lack \textit{T1R2} genes, several avian species display high behavioral affinity for nectar or sweet fruit. Receptor expression studies in hummingbirds revealed that the ancestral umami receptor (T1R1-T1R3) has been repurposed to detect sugars.\footnote{Baldwin, et al. Evolution of sweet taste perception in hummingbirds by transformation of the ancestral umami receptor. \textit{Science} 2014; \textbf{345}: 929-933.}
+
+Researchers investigated whether T1R1-T1R3 function would dictate hummingbird taste behavior. In a series of field tests, hummingbirds were presented simultaneously with two filled containers, one containing test stimuli and a second containing sucrose. The test stimuli included aspartame, erythritol, water, and sucrose. Aspartame is an artificial sweetener that tastes sweet to humans, but is not detected by hummingbird T1R1-T1R3, while erythritol is an artificial sweetener that is known to activate T1R1-T1R3.
+
+Data on how long a hummingbird drank from a particular container for a given trial, measured in seconds, is in the file \texttt{hummingbirds.Rdata}. Variable names ending in \texttt{1} correspond to the test stimuli, while names ending in \texttt{2} correspond to sucrose. For example, in the first field test comparing aspartame and sucrose, a hummingbird drank from the aspartame container for 0.54 seconds and from the sucrose container for 3.21 seconds.
+
+Do the data suggest that T1R1-T1R3 play the described role in hummingbird taste behavior?
+
+To answer this question, analyze the data for each set of trials: aspartame versus sucrose, erythritol versus sucrose, water versus sucrose, and sucrose versus sucrose. Let $\alpha = 0.05$. Write a conclusion summarizing and interpreting the results, referencing numerical results (such as $p$-values) where appropriate.
+
+
+```{r}
+#load dataset
+setwd("N:/D/C/Users/Sangani/Desktop/Course Work/Fall 2022/Applied Stats/Assignments/Assignment_3/")
+load("hummingbirds.Rdata")
+```
+# View(hummingbirds)
+
+```{r}
+summary(hummingbirds)
+```
+# summary was used to get quick assessement of the distribution of the data. NA values was noticed during the manual visualization and therefore was removed in future steps.
+
+# a) Aspartame vs sucrose
+
+```{r}
+sd(hummingbirds$asp.vs.sucr.1, na.rm = TRUE)
+sd(hummingbirds$asp.vs.sucr.2, na.rm = TRUE)
+```
+
+# b) Erythitol vs sucrose
+```{r}
+sd(hummingbirds$ery.vs.sucr.1, na.rm = TRUE)
+sd(hummingbirds$ery.vs.sucr.2, na.rm = TRUE)
+```
+
+
+# c) water vs sucrose
+```{r}
+sd(hummingbirds$wat.vs.sucr.1, na.rm = TRUE)
+
+```
+
+# d) sucrose vs sucrose
+```{r}
+sd(hummingbirds$sucr.vs.sucr.1, na.rm = TRUE)
+sd(hummingbirds$sucr.vs.sucr.2, na.rm = TRUE)
+```
+
+# The extreme sd
+
+```{r}
+hist(hummingbirds$asp.vs.sucr.1)
+hist(hummingbirds$sucr.vs.sucr.2)
+
+```
+
+```{r}
+boxplot(hummingbirds$asp.vs.sucr.1)
+boxplot(hummingbirds$asp.vs.sucr.2)
+boxplot(hummingbirds$ery.vs.sucr.1)
+boxplot(hummingbirds$ery.vs.sucr.2)
+boxplot(hummingbirds$sucr.vs.sucr.1)
+boxplot(hummingbirds$sucr.vs.sucr.2)
+```
+
+# Null hypothesis: There is no significant difference in drinking time
+# Alternative hypothesis: There is a significant difference between the drinking time 
+
+# Paired t-test
+```{r}
+t.test(hummingbirds$asp.vs.sucr.1, hummingbirds$asp.vs.sucr.2, na.rm = TRUE, alternative = "two.sided", paired = TRUE)
+```
+```{r}
+t.test(hummingbirds$ery.vs.sucr.1, hummingbirds$ery.vs.sucr.2, na.rm = TRUE, alternative = "two.sided", paired = TRUE)
+```
+```{r}
+t.test(hummingbirds$sucr.vs.sucr.1, hummingbirds$sucr.vs.sucr.2, na.rm = TRUE, alternative = "two.sided", paired = TRUE)
+```
+
+# Conclusion including p-values and α = 0.05 : 
+
+
+### Problem 2. (20 points)
+
+A medical research group is recruiting people to complete short surveys about their medical history. For example, one survey asks about family history of cancer. So far, people who sign up complete an average of 4 surveys, with standard deviation 2.2. The research group wants to try a new interface that they think may encourage new enrollees to complete more surveys. They plan to randomize each enrollee to either the old or new interface. 
+
+  a) How many new enrollees do they need for each group (old or new interface) to detect an effect size of 0.5 surveys per enrollee, if the desired power level is 80\%? Let $\alpha = 0.05$.
+
+```{r}
+mean = 4
+sd = 2.2
+effect_size = 0.5 
+
+#To detect the number of new employees we were using power test function
+power.t.test(delta = 0.5, sd = 2.2, sig.level = 0.05, power = 0.80)
+```
+
+  b) Explain the effect of increasing $\alpha$ on the power of the test. What is one disadvantage to increasing $\alpha$, from a decision-making standpoint?
+  
+
+
+
+## Unit 5
+
+### Problem 3.
+
+Caffeine is the world's most widely used stimulant, with approximately 80\% consumed in the form of coffee. Suppose a study was conducted to investigate the relationship between coffee consumption and exercise. Participants were randomly recruited from the undergraduate and graduate student populations of universities in the Boston/Cambridge area. Participants were asked to report the number of hours they spent per week on moderate (e.g., brisk walking) and vigorous (e.g., strenuous sports and jogging) exercise. Based on these data, the researchers estimated the total hours of metabolic equivalent tasks (MET) per week, a value always greater than 0. The file \texttt{coffee\_exercise.Rdata} contains simulated MET data for the study participants, based on the amount of coffee consumed. The consumption groups are labeled \texttt{A - E}.
+
+  - \texttt{A}: 1 cup or less of caffeinated coffee consumed per week
+  - \texttt{B}: 2 to 6 cups of caffeinated coffee consumed per week
+  - \texttt{C}: 1 cup of caffeinated coffee consumed per day
+  - \texttt{D}: 2 to 3 cups of caffeinated coffee consumed per day
+  - \texttt{E}: 4 or more cups of caffeinated coffee consumed per day
+
+#View(coffee.exercise)
+a) Create a plot that shows the association between MET score and coffee consumption. Describe what you see.
+```{r}
+load("coffee_exercise.Rdata")
+```
+
+```{r}
+boxplot(coffee.exercise$met, coffee.exercise$coffee.consumption)
+abline(a = 0, b = 1, col = 'red')
+```
+
+```{r}
+boxplot(coffee.exercise$met, coffee.exercise$coffee.consumption, 
+        names = c('met','coffee consumption'))
+```
+
+```{r}
+hist(coffee.exercise$met,l = 6)
+```
+
+# Observation: 
+
+b) Conduct an analysis to determine whether the average physical activity level varies among the different levels of coffee consumption.
+
+    i. Assess whether the assumptions for the analysis method are reasonably satisfied.
+    
+```{r}
+t.test(coffee.exercise$met)
+```
+
+#two-sample syntax
+```{r}
+pairwise.t.test(coffee.exercise$met, coffee.exercise$coffee.consumption, p.adj = "bonf")
+
+```
+
+#"bonf" tells R to scale the p-values down to the original 0.05 significance level by multiplying them by K.
+```{r}
+# normal QQ plot in R - normal quantile plot
+x = coffee.exercise$met
+y = coffee.exercise$coffee.consumption
+# normal QQ plot in R
+qqplot(x, y, main = "Q-Q Plot")
+```
+```{r}
+qqnorm(coffee.exercise$met, main = "Q-Q for met")
+qqline(coffee.exercise$met)
+```
+
+```{r}
+#summary statistics
+table(coffee.exercise$met)
+tapply(coffee.exercise$met, coffee.exercise$coffee.consumption, var)
+tapply(coffee.exercise$met, coffee.exercise$coffee.consumption, mean)
+
+```
+    
+    ii. Summarize the conclusions and comment on the generalizability of the study results.
+    
+```{r}
+summary(aov(coffee.exercise$met ~ coffee.exercise$coffee.consumption))
+```
+# Based upon the various analysis tests performed, we coulde say that the alternative hypothesis is true, rejecting the null hypothesis, as the t statistic value was in negative and the p-value of 2.2e-16 proved this, confirming the MET for different groups were not the same. Also based on the graphical analysis we can say that taking more of caffiene can reduce the MET significantly.
+
+
+
+
+### Problem 4. (100 points)
+
+Problem Set 1 introduced data from a study assessing whether a relationship exists between the fluoride content in a public water supply and the dental caries experience of children with access to the supply. The file \texttt{water.Rdata} contains data from a study examining 7,257 children in 21 cities from the Flanders region in Belgium. 
+
+The fluoride content of the public water supply in each city, measured in parts per million (ppm), is saved as the variable \texttt{fluoride}; the number of dental caries per 100 children examined is saved as the variable \texttt{caries}. The number of dental caries is calculated by summing the numbers of filled teeth, teeth with untreated dental caries, teeth requiring extraction, and missing teeth at the time of the study. 
+
+#View(water)
+a) Create a plot that shows the relationship between fluoride content and caries experience. Add the least squares regression line to the scatterplot.
+
+```{r}
+load("water.Rdata")
+```
+
+```{r}
+x<-lm(water$caries~water$fluoride)
+plot(water$fluoride, water$caries)
+abline(x, col="red")
+```
+
+b) Based on the plot from part a), comment on whether the model assumptions of linearity and constant variability seem reasonable for these data.
+
+# No, they were not met, as the line dosent touch all the variable points, there exists to be a not so normaldistribution, anmd with this model, we can't predict the future values accurately. no linerality exists within the model, without the proper model variance 
+
+
+c) Use a residual plot to assess the model assumptions of linearity and constant variability. Comment on whether the residual plot reveals any information that was not evident from the plot from part b).
+
+```{r}
+y<-resid(x)
+plot(fitted(x), y)
+abline(a = 0, b = 0, col = 'red')
+```
+
+#  Since there was no equal distribution of data within the regression line between the predicted values, no linerality exists within the model, without the proper model variance was noted.
+
+Suppose the file \texttt{water\_new.Rdata} contains data from a more recent study conducted across 175 cities in Belgium (the data are simulated). Repeat the analyses from parts a) - c) with the new data.
+
+d) Create a plot that shows the relationship between fluoride content and caries experience in the new data. Add the least squares regression line to the scatterplot.
+
+```{r}
+load("water_new.Rdata")
+```
+```{r}
+z<-lm(water.new$caries~water.new$fluoride)
+plot(water.new$fluoride, water.new$caries)
+abline(z, col="red")
+```
+
+e) Based on the plot from part d), comment on whether the model assumptions of linearity and constant variability seem reasonable for these data.
+
+```{r}
+q<-resid(z)
+plot(fitted(z), q)
+abline(a = 0, b = 0, col = 'red')
+```
+
+
+f) Use a residual plot to assess the model assumptions of linearity and constant variability. Comment on whether the residual plot reveals any information that was not evident from the plot from part e).
+
+#bASED on thw above constructed plots, this new databy picturising through the scatter and residual plot, we can say that the data is linearly correlated, with equal and orderly distributed of variables. Model provides information on the linearity and the variablity was constant, unlike the previous model.
+   
+
+## Unit 7
+
+
+
+### Problem 5. (200 points)
+
+In Units 6 and 7, you have become familiar with the Prevention of REnal and Vascular END-stage Disease (PREVEND) study, which took place between 2003 and 2006 in the Netherlands. Clinical and demographic information for 500 individuals are stored as \texttt{prevend.samp} in the \texttt{oibiostat} package.
+
+The PREVEND data were mainly used throughout the Unit 7 lectures to demonstrate one application of multiple regression: estimating the association between a response variable and primary predictor of interest while adjusting for confounders. Unit 7, Lab 3 discusses a model for the association of RFFT score with statin use that adjusts for age, educational level, and presence of cardiovascular disease. This question uses the PREVEND data in the context of explanatory model building.
+
+Suppose that you have accepted a request to do some consulting work for a friend. Your task is to develop a prediction model for RFFT score based on the following possible predictor variables and the data in \texttt{prevend.samp}. 
+
+\begin{center}
+\begin{tabular}{r|l}
+\textbf{Variable} & \textbf{Description} \\
+\hline
+\texttt{Age} & age in years \\
+\texttt{Gender} & gender, coded \texttt{0} for males and \texttt{1} for females \\
+\texttt{Education} & highest level of education \\
+\texttt{DM} & diabetes status, coded \texttt{0} for absent and \texttt{1} for present \\
+\texttt{Statin} & statin use, coded \texttt{0} for non-users and \texttt{1} for users \\
+\texttt{Smoking} & smoking, coded \texttt{0} for non-smokers and \texttt{1} for smokers \\
+\texttt{BMI} & body mass index, in $kg/m^2$ \\
+\texttt{FRS} & Framingham risk score, measure of risk for cardiovascular event with 10 years
+\end{tabular}
+\end{center}
+
+The variable \texttt{Education} is coded \texttt{0} for primary school, \texttt{1} for lower secondary education, \texttt{2} for higher secondary school, and \texttt{3} for university. A higher FRS indicates higher risk of a cardiovascular event.
+
+Your friend has requested that your final model have no more than two predictor variables. Additionally, your friend would like you to predict the mean RFFT score for a female individual of age 55 with a university education, no diabetes, no statin use, who is not a smoker, has BMI of 24, and FRS of 5. Use only the information necessary to make a prediction from your model.
+
+In your solution, briefly explain the work done at each step of developing the final model and evaluate the final model's strengths and weaknesses.
+
+Please consider the following sections for your solution: 
+
+*Data Exploration*
+
+#Data exploration is generally performed to explore the relationship between variables, and help us understand what variables should we consider for building a model, and what were some of the varables to exempt. 
+```{r}
+library(oibiostat); data("prevend.samp")
+library(openintro); data(COL)
+```
+```{r}
+prevend.samp
+```
+#numerical summaries
+
+```{r}
+#First we had performed a summary analysis for all the possible varianta to find out which could be better to predict the final model better
+
+summary(prevend.samp$Age)
+summary(prevend.samp$Gender)
+summary(prevend.samp$Education)
+summary(prevend.samp$DM)
+summary(prevend.samp$Statin)
+summary(prevend.samp$Smoking)
+summary(prevend.samp$BMI)
+summary(prevend.samp$FRS)
+
+```
+#Not because we need to include boxplots with in the data exploration, but just plotted it out of curiosity. 
+```{r}
+boxplot(prevend.samp$Age)
+boxplot(prevend.samp$Gender)
+boxplot(prevend.samp$Education)
+boxplot(prevend.samp$DM)
+boxplot(prevend.samp$Statin)
+boxplot(prevend.samp$Smoking)
+boxplot(prevend.samp$BMI)
+boxplot(prevend.samp$FRS)
+```
+# Analysed histograms of all the predictor variables to analyze their skewness, and data distribution graph.
+hist()
+```{r}
+hist(prevend.samp$Age)
+hist(prevend.samp$Gender)
+hist(prevend.samp$Education)
+hist(prevend.samp$DM)
+hist(prevend.samp$Statin)
+hist(prevend.samp$Smoking)
+hist(prevend.samp$BMI)
+hist(prevend.samp$FRS)
+```
+# histographical representation had proved that Age, education, & FRS samples had good representation when compared to the other variables, where there exists skewness and were conidered inappropriate, if used might produce the week performing models
+```{r}
+#create a scatterplot matrix to measure the variables distribution
+pairs(~ Age + Gender + Education + DM + Statin + Smoking + BMI + FRS + RFFT, data = prevend.samp,
+pch = 21, cex = 0.7, bg = COL[1, 3], col = COL[1])
+```
+```{r}
+#subset numerical variables
+prevend.samp = subset(prevend.samp, select = c(Age, Gender, Education, DM, Statin, Smoking, BMI, FRS,  RFFT ))
+#create a correlation matrix
+cor(prevend.samp)
+```
+
+#From the model exploration, Age, education, DM, Smoking, BMI, FRS were need to be included as variables in the initial model.
+
+
+*Initial Model Fitting*
+
+```{r}
+#fit the model
+model0 = lm(RFFT~ Age + Gender + Education + DM + Statin + Smoking + BMI + FRS, data = prevend.samp)
+#print model summary
+summary(model0)
+```
+
+
+*Model Comparison*
+
+```{r}
+model1 = lm(RFFT ~ Age + Gender,
+data = prevend.samp)
+summary(model1)$adj.r.squared
+```
+```{r}
+model2 = lm(RFFT ~ Age + Education,
+data = prevend.samp)
+summary(model2)$adj.r.squared
+```
+```{r}
+model3 = lm(RFFT ~ DM + Smoking,
+data = prevend.samp)
+summary(model3)$adj.r.squared
+```
+```{r}
+model4 = lm(RFFT ~ Age + DM,
+data = prevend.samp)
+summary(model4)$adj.r.squared
+```
+```{r}
+model4 = lm(RFFT ~ Age + FRS,
+data = prevend.samp)
+summary(model4)$adj.r.squared
+```
+```{r}
+model4 = lm(RFFT ~ Age + BMI + Smoking,
+data = prevend.samp)
+summary(model4)$adj.r.squared
+```
+#Out of variable model comparisions performed, the model which performed best and gave good score was the model2 which involving age and eduction having the high rsquared score of 0.425, hence we considered this model with variables age and education as our final model.
+
+*Model Assessment*
+
+```{r}
+final.model = model2
+qqnorm(resid(final.model),
+       pch = 21, col = COL[1], bg = COL[1, 4],
+main = "Q-Q Plot of Model Residuals")
+qqline(resid(final.model))
+
+```
+
+```{r, fig.width = 8, fig.height = 4, echo = FALSE}
+#plot residuals vs fitted
+plot(resid(final.model) ~ fitted(final.model),
+     pch = 21, bg = COL[1, 3], col = COL[1],
+     xlab = "Predicted", ylab = "Residual")
+abline(h = 0, lty = 2)
+
+#plot residuals vs Age, 
+plot(resid(final.model) ~ prevend.samp$Age,
+     pch = 21, bg = COL[1, 3], col = COL[1],
+     xlab = "Age", ylab = "Residual")
+points(resid(final.model)~ prevend.samp$Age,
+     pch = 21, bg = COL[4, 3], col = COL[4])
+abline(h = 0, lty = 2)
+
+#plot residuals vs Education
+boxplot(resid(final.model) ~ prevend.samp$Education,
+        ylab = 'Residual', xlab = "Education",
+        pch = 21,
+        border = COL[1], col = COL[1, 4],
+        outcol = COL[1], outbg = COL[1, 3],
+        medlwd = 1.25)
+```
+
+
+*Conclusions*
+
+# For the final model, the q-q plot and other visualizational graphs like the scatter plot, box plots were plotted.To summarize,the final variables which i considered could be best, were Age and education as they had showed strength when used during model assessment 
+
+
+
+## Unit 8
+
+### Problem 6. (200 points)
+
+Biological ornamentation refers to features that are primarily decorative, such as the elaborate tail feathers of a peacock. The evolution of ornamentation in males has been extensively researched; there are many studies exploring how male ornamentation functions as a signal of phenotypic and/or genetic quality to potential mates. In contrast, there are few studies investigating female ornamentation.\footnote{Freeman-Gallant, et al., J Evol. Biol. (2014) 27: 982-991 \url{doi: 10.1111/jeb.12369}.}
+
+Some biologists have hypothesized that there is strong natural selection against overly conspicuous female ornaments. Bright or colorful plumage in females might be expected to increase the incidence of predation on nests for species in which females incubate eggs. Female ornamentation might also undergo positive selection, functioning in sexual signaling like male ornamentation, and indicating desirable qualities such as high immune function. 
+
+The data in the file \texttt{rubythroats.Rdata} are from a study of 83 female rubythroats, a bird species in which both males and females exhibit a brightly colored red patch on the throat and breast (referred to as a "bib"). In rubythroats, females incubate the eggs, while males provide food to females to facilitate uninterrupted incubation. 
+
+  - \texttt{survival}: records whether the bird survived to return to the nesting site the subsequent year, \texttt{yes} if the female was observed and \texttt{no} if the female was not observed
+  
+  - \texttt{weight}: weight of the bird, measured in grams
+  
+  - \texttt{wing.length}: wing length of the bird, measured in millimeters
+  
+  - \texttt{tarsus.length}: tarsus (i.e., leg) length of the bird, measured in millimeters
+  
+  - \texttt{first.clutch.size}: number of eggs in the first clutch laid during the first year that the bird was observed
+  
+  - \texttt{nestling.fate}: whether the nestlings from the first clutch survived to fledging (\texttt{Fledged}) or were lost to predation (\texttt{Predated})
+  
+  - \texttt{second.clutch}: whether the bird laid a second clutch during the first year that the bird was observed, recorded as \texttt{Yes} for laying a second clutch and \texttt{No} for otherwise
+  
+  - \texttt{carotenoid.chroma}: a measure of the abundance of red carotenoid pigment in feathers, as measured from a sample of four feathers taken from the center of the bird's bib. Larger numbers indicate higher levels of pigment in the feathers and a more saturated red color.
+  
+  - \texttt{bib.area}: the total area of the bird's bib, measured in millimeters squared
+  
+  - \texttt{total.brightness}: a measure of bib brightness, calculated from spectrometer analyses. Larger numbers indicate a brighter red color.
+  
+You will be conducting an analysis of the results in order to investigate how bib attributes and other phenotypic characteristics of female birds are associated with measures of fitness.
+
+a) Fit a model to predict nestling fate from female bib characteristics (carotenoid chroma, bib area, total brightness) and female body characteristics (weight, wing length, tarsus length). Identify the slope coefficients significant at $\alpha = 0.10$, and provide an interpretation of these coefficients in the context of the data.
+
+```{r}
+load("rubythroats.Rdata")
+```
+#Fitting the model
+
+
+ 
+```{r}
+model = glm(nestling.fate ~ carotenoid.chroma + bib.area + weight + wing.length + tarsus.length + total.brightness, data = rubythroats, family = binomial(link = "logit"))
+model
+
+```
+```{r}
+summary(model)
+```
+
+
+
+#Based on the model generated we can interpret that the total.brightness and Wing.lenth were more significant based on the value of alpha. 
+
+
+b) Investigate the factors associated with whether a female lays a second clutch during the first year that she was observed. 
+
+    i. Is there evidence of a significant association between nestling fate and whether a female lays a second clutch? If so, report the direction of association.
+    
+```{r}
+model22 = glm(nestling.fate ~ second.clutch, data = rubythroats, family = binomial(link = "logit"))
+model22
+```
+```{r}
+summary(model22)
+```
+
+# Yes, based on the model, there exists to be a significant positive association between the nestling fate and the second clutch. 
+
+
+    ii. Fit a model to predict whether a female lays a second clutch from nestling fate and bib characteristics. Identify the two predictors that are most statistically significantly associated with the response variable.
+    
+        The two predictors most statistically significantly associated with laying a second clutch are total brightness ($p = 0.030$) and nestling fate ($p = 0.0015$). 
+
+```{r}
+model = glm(second.clutch~ nestling.fate + carotenoid.chroma + bib.area + weight + wing.length + tarsus.length + total.brightness, data = rubythroats, family = binomial(link = "logit"))
+model
+```
+
+    
+```{r}
+model3 = glm(second.clutch~nestling.fate + total.brightness, data = rubythroats, family = binomial(link = "logit") )
+model3
+```
+#Based on this data we can say that the nestling.fate character is a predictor value which was of more statistically significant at the range of 3.84 with the second.clutch. The total.brightness area was also the next most important and required predictor variable, since there was no negative values or correlations noted.
+
+```{r}
+summary(model3)
+```
+
+
+   iii. Fit a new model to predict whether a female lays a second clutch using the two predictors identified in part ii. and their interaction. Interpret the model coefficients in the context of the data.
+
+```{r}
+model = glm(second.clutch~nestling.fate + total.brightness, data = rubythroats, family = binomial(link = "logit") )
+coef(model)
+```
+
+
+
+c) Investigate the factors associated with whether a female survives to return to the nesting site the subsequent year.
+
+    i. Fit a model to predict survival from bib characteristics, female body characteristics, first clutch size, and whether a second clutch was laid. Identify factors that are positively associated with survival for the observed birds.
+    
+# The bib characters here were the bib.area, carotenoid chroma, total brightness
+#The female body characters were the weight, wing lenth, tarsus length
+#along with the first clutch.size, and second clutch as predictor variables to analyze their response to the survival
+
+```{r}
+model = glm(survival ~ carotenoid.chroma + bib.area + weight + wing.length + tarsus.length + total.brightness + second.clutch + first.clutch.size, data = rubythroats, family = binomial(link = "logit"))
+summary(model)
+```
+#first.clutch.size and wing.length were the variables which were most positively associated with the survival response. 
+
+    ii. Fit a new model with only the significant predictors from the previous model; let $\alpha = 0.10$. Comment on whether this model is preferable to the one fit in part i.
+
+```{r}
+model = glm(survival~ first.clutch.size + wing.length, data = rubythroats, family = binomial(link = "logit"))
+summary(model)
+``` 
+ 
+      *For parts iii. and iv., use the better parsimonious model of the ones fit in parts i. and ii.*
+    
+    iii. Compare the odds of survival for a female who laid 5 eggs in her first clutch to the odds of survival for a female who laid 3 eggs in her first clutch, if the females are physically identical and both laid a second clutch.
+
+```{r}
+model7 = glm(survival ~ carotenoid.chroma + bib.area + total.brightness + weight + wing.length + tarsus.length + first.clutch.size + second.clutch , data = rubythroats, family = binomial(link = "logit"))
+```
+
+
+```{r}
+exp(model7$coef[8]*(5-3))
+```
+
+```{r}
+exp(-model7$coef[8]*(5-3))
+```  
+  
+    iv. Suppose female A has bib area 350 $mm^2$, total brightness of 35, carotenoid chroma 0.90, tarsus length of 19.5 $mm$, wing length 51 $mm$, weighs 10.8 $g$, lays 4 eggs in her first clutch, and lays a second clutch. Female B has bib area 300 $mm^2$, total brightness of 20, carotenoid chroma 0.85, tarsus length of 19.0 $mm$, wing length 50 $mm$, weighs 10.9 $g$, lays 3 eggs in her first clutch, and lays a second clutch. Compare the odds of survival for females A and B.
+    
+```{r}
+survival_model4<-glm(survival~bib.area+ total.brightness + carotenoid.chroma+ tarsus.length+ wing.length+ weight + first.clutch.size, data= rubythroats, family =binomial(link="logit"))
+
+log.odds.A = predict(survival_model4, newdata = data.frame(bib.area
+= 350,total.brightness =35,carotenoid.chroma =0.90,tarsus.length = 19.5,
+wing.length=51,weight=10.8,first.clutch.size=4))
+
+log.odds.B = predict(survival_model4, newdata = data.frame(bib.area = 300,total.brightness =20,carotenoid.chroma = 0.85,tarsus.length = 19.0,
+wing.length = 50,weight=10.9,first.clutch.size=3))
+exp(log.odds.A); exp(log.odds.B)
+exp(log.odds.A)/exp(log.odds.B)
+```      
+    
+d) Biological fitness refers to how successful an organism is at surviving and reproducing. Based on the results of your analysis, briefly discuss whether female ornamentation seems beneficial for fitness in this bird species. Limit your response to at most ten sentences. You do not need to reference specific numerical results/models from the analysis.
+
+#Yes, after analyzing all the models, particularly the models related to the response variable survival where they had proved that the birds features like the first.clutch.size and wing.length had a major influence, and also proved through modelled analysis that the fate ofd nestling had a positive effected relation with the birds ornamentation, proving that this ornamentation, thge brightness of the wings or the bib features, were found to be beneficial for the survival of the species.
+
+

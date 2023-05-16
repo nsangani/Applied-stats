@@ -1,0 +1,818 @@
+---
+title: "Homework Assignment 2 Sangani"
+author: "Neel Sangani"
+date: "Oct 31, 2022"
+output:
+  pdf_document:
+    fig_width: 5
+    fig_height: 3.5
+  html_document:
+    df_print: paged
+geometry: margin=1in
+fontsize: 11pt
+---
+
+\newpage
+## Unit 1 
+
+### Problem 1. (\textit{10 pionts})
+
+Since states with larger numbers of elderly residents would naturally have more nursing home residents, the number of nursing home residents in a state is often adjusted for the number of people 65 years or older (65+). That adjustment is usually given as the number of nursing home residents age 65+ per 1,000 members of the population age 65+. For example, a hypothetical state with 200 nursing home residents age 65+ and 50,000 people age 65+ would have the same adjusted number of residents as a state with 400 residents and a total age 65+ population of 100,000 -- 4 residents per 1,000.
+  
+The data file \texttt{nursing.home.Rdata} contains this adjusted number of residents for each state in the United States.  The state names are saved under the variable name \texttt{state} and the adjusted number of residents under the variable name \texttt{resident}.\footnote{The data originally appeared in Chapter 12 of  \textit{Case Studies in Biometry}, 1994, by Lange et al.}
+
+Hint: use the \textsf{R} functions \texttt{setwd('your work directory')} to set your work directory to where the data file locates.  Then use \texttt{load('nursing.home.Rdata')} to load the data file. To find where your current work directory is, use  \texttt{getwd()}.
+
+a) How many variables are included in this data file? Please specify the data types of these variables. Hint: options for data types are:  discrete numeric, continous numeric, ordinal categoric, and nominal categoric. (\textit{2 pionts})
+
+b) Which row has the smallest number of nursing home residents per 1000 population 65 years of age and over? Which raw has the largest number? Hint: use the \textsf{R} functions \texttt{which.min()} and \texttt{which.max()} to find the index of the row. (\textit{2 pionts})
+  	
+c) Which state has the smallest number of nursing home residents per 1000 population 65 years of age and over? Which state has the largest number? Hint: use the indexes found by the \textsf{R} functions \texttt{which.min()} and \texttt{which.max()} to index the state names. (\textit{2 pionts})
+  	
+d) Construct a boxplot for the number of nursing home residents per 1,000 population. (\textit{2 pionts})
+  	
+e) According to the boxplot, is the distribution of nursing home resident per 1000 population symmetric or skewed? Are there any states that could be considered outliers? (\textit{2 pionts})
+  	
+f) Display the number of nursing home residents per 1000 population using a histogram. Explain your choice of bin numbers. (\textit{2 pionts})
+
+### Answwer: 
+
+```{r}
+#load the nursing.home dataset
+load("N:/D/C/Users/Sangani/Desktop/Course Work/Fall 2022/Applied Stats/Assignments/Assignment_2/nursing.home.Rdata")
+#View(nursing.home)
+```
+
+a) Two variables state: (nominal categorical) and resident (continuous numeric)
+
+b)
+```{r}
+which.min(nursing.home$resident)
+which.max(nursing.home$resident)
+```
+c) 
+```{r}
+nursing.home$state[which.min(nursing.home$resident)] #12
+nursing.home$state[which.max(nursing.home$resident)] #42
+```
+
+d) 
+
+```{r}
+#construct a boxplot
+boxplot(nursing.home$resident, main='Number of nursing home residents per 1,000 population',
+        xlab='nursing home residents')
+```
+
+e) Symmetric distribution; no apparent outliers; median ~45; shows normal distribution
+
+f)
+
+```{r}
+#construct a histogram
+hist(nursing.home$resident, main="Nursing home residents per 1,000 population",
+     xlab='nursing home residents')
+```
+
+
+\newpage
+
+### Problem 2. (\textit{10pionts})
+
+The file \texttt{adolescent.fertility.Rdata} contains data on the number of children born to women aged 15-19 from 189 countries around the world for the years 1997, 2000, 2002, 2005, and 2006.\footnote{Data from the CIA World Factbook} The data are defined using a scaling similar to that used in the nursing home data. The values for the annual adolescent fertility rates represent the number of live births among women aged 15-19 per 1,000 women members of the population of that age.
+
+For the years 2000-2006, the adolescent fertility rate for Iraq is coded \texttt{NA}, or missing. When calculating a mean or standard deviation in \textsf{R} for a variable \texttt{x} which has missing data, add \texttt{na.rm=TRUE} to the argument to perform the calculations without the missing observations: $\texttt{mean(x, na.rm=TRUE); sd(x, na.rm=TRUE)}$.
+
+a) Calculate the mean, standard deviation, and five-number summary for the distribution of adolescent fertility in 2006 ($\texttt{fert\_2006}$). (\textit{4 pionts})
+
+b) Note that the \texttt{summary()} command in \textsf{R} produces six numbers; specify which five belong in the five-number summary as defined in lecture. (\textit{2 pionts})
+		
+c) What is the ${75}^{th}$ percentile of the distribution? Write a sentence explaining the ${75}^{th}$ percentile in the context of this data. (\textit{2 pionts})
+		
+d) Use a single \texttt{boxplot} command to produce side-by-side boxplots of the fertility rates for each of the five years in the dataset. What pattern do you see? (\textit{2 pionts})
+
+### Answwer: 
+
+a) 
+
+<!---
+
+Recall the use of na.rm = TRUE to calculate summary statistics in the presence of missing values.
+
+--->
+
+
+```{r}
+#load adolescent.fertility dataset
+load("N:/D/C/Users/Sangani/Desktop/Course Work/Fall 2022/Applied Stats/Assignments/Assignment_2/adolescent.fertility.Rdata")
+#View(adolescent.fertility)
+
+#calculate the mean, SD, and 5-number summary
+mean(adolescent.fertility$fert_2006, na.rm=TRUE)
+sd(adolescent.fertility$fert_2006, na.rm=TRUE)
+summary(adolescent.fertility$fert_2006) 
+```
+### Six number + NA is shown in result however five number summary only include min, max, 1st/3rd quartile, median
+
+b)Five number summary: max, min, 1st and 3rd quartile, and median
+
+c)3rd quartile shows the 75th percentile of the dataset. Here, 75.727 point lies on the 75th percentile show that 75% of the data is below this number and 25% of the data is above this number
+
+d)gradual decrease in the fertility rate in live births per 1000 women with highest fertility rate in 1997
+
+```{r}
+#graphical summary
+boxplot(adolescent.fertility$fert_1997, adolescent.fertility$fert_2000, adolescent.fertility$fert_2002, adolescent.fertility$fert_2005, adolescent.fertility$fert_2006, 
+        names = c('1997','2000','2002','2005','2006'))
+```
+
+
+\newpage
+
+### Problem 3. (\textit{8 pionts})
+
+Suppose that you are interested in determining whether a relationship exists between the fluoride content in a public water supply and the dental caries experience of children using this water. The file \texttt{water.Rdata} contains the data from a study examining 7,257 children in 21 cities from the Flanders region in Belgium.
+
+The fluoride content of the public water supply in each city, measured in parts per million (ppm), is saved under the variable name \texttt{fluoride}; the number of dental caries per 100 children examined is saved under the name \texttt{caries}. The total dental caries number is obtained by summing the numbers of filled teeth, teeth with untreated dental caries, teeth requiring extraction, and missing teeth.\footnote{These data appear in Table B21 in \textit{Principles of Biostatistics}, 2nd ed. by Pagano and Gauvreau.} 
+
+a) How many variables are included in this data file? Please specify the data types of these variables. Hint: options for data types are:  discrete numeric, continous numeric, ordinal categoric, and nominal categoric. (\textit{2 pionts}) 
+
+b) Construct a two-way scatterplot for these data, with \texttt{fluoride} as the $x$-variable and \texttt{caries} as the $y$-variable. (\textit{2 pionts})
+
+c) Calculate the correlation between \texttt{fluoride} and \texttt{caries}. (\textit{2 pionts})
+		
+d) Do \texttt{fluoride} and \texttt{caries} appear to be positively or negatively associated? Explain your answer. (\textit{2 pionts})
+		
+### Answwer: 
+
+a)
+
+```{r}
+#load water dataset
+load("N:/D/C/Users/Sangani/Desktop/Course Work/Fall 2022/Applied Stats/Assignments/Assignment_2/water.Rdata")
+#View(water)
+```
+Two variables - flouride (continuous numeric) and caries (discrete numeric)
+
+b)
+
+```{r}
+#construct a two-way scatterplot
+plot(water$caries ~ water$fluoride, main='Fluoride content vs dental caries experience of children',
+     xlab = 'fluoride', ylab = 'caries')
+```
+
+c) 
+
+```{r}
+#calculate the correlation 
+cor(water$fluoride, water$caries) #-0.857029
+```
+
+d) Strong negatively correlated. Higher the flouride content lower the dental caries experience.
+
+
+\newpage
+
+### Problem 4. (\textit{24 pionts})
+
+This problem features data from the \textit{FAMuSS} (\textit{Functional SNPs Associated with Muscle Size and Strength}) study discussed in lecture. The study examined the possible genetic determinants of skeletal muscle size and strength, before and after training. 
+
+This problem uses the following variables from the FAMuSS data:
+
+  - \texttt{ndrm.ch}: the percent change in strength in a participant's non-dominant arm, from before training and after.
+    
+  - \texttt{drm.ch}: the percent change in strength in a particpant's dominant arm.
+    
+  - \texttt{actn3.r577x}: the genotype at residue \textit{r577x} within the \textit{ACTN3} gene.
+    
+  - \texttt{race}: race of the participant, with values stored as text strings.
+
+The \texttt{famuss} dataset is in the \texttt{oibiostat} package.
+
+a) How many variables are included in this data file? Please specify the data types of these variables. Hint: options for data types are:  discrete numeric, continous numeric, ordinal categoric, and nominal categoric. (\textit{6 pionts}) 
+	
+b) Make a table of the genotypes for the SNP \texttt{actn3.r577x}. (\textit{2 pionts})
+		
+c) Construct a table of \texttt{actn3.r577x} by race, with the genotypes in the columns of the table and races in the rows. The command for creating a two-way table of categorical variables $x$ and $y$ is: \texttt{table(x, y)}. (\textit{2 pionts})
+
+d) Provide numerical summaries to describe the \texttt{ndrm.ch} variable. Use both the mean and standard deviation and the five-number summary. (\textit{4 pionts})
+
+e) Provide graphic summaries to describe the \texttt{ndrm.ch} variable. Use both boxplot and histogram. (\textit{4 pionts})
+		
+f) If you were to use numerical summaries to describe the \texttt{ndrm.ch} variable, would you prefer the mean and standard deviation or the five-number summary? Why? (\textit{2 pionts})
+		
+g) Produce a graphical summary that shows the association between \texttt{age} and genotype at the SNP \texttt{actn3.r577x}. Describe what you see. (\textit{4 pionts})
+
+### Answwer: 
+
+a)
+
+```{r}
+#load the data
+library(oibiostat)
+data("famuss")
+#View(famuss)
+str(famuss)
+```
+There are 9 variables - ndrm.ch (continuous numeric), drm.ch(continuous numeric), sex(nominal categorical), age(discrete numeric), race(nominal categorical), height(continuous numeric), weight(discrete numeric), actn3.r577x(nominal categoric), bmi(continuous numeric)
+
+b) 
+
+```{r}
+#make table for actn3.r577x
+table(famuss$actn3.r577x)
+```
+
+c) 
+
+```{r}
+#make table of actn3.r577x by race
+with(data = famuss, table(sex, actn3.r577x))
+```
+
+d)
+
+```{r}
+#numeric summaries
+mean(famuss$ndrm.ch, na.rm=TRUE) #53.29109
+sd(famuss$ndrm.ch, na.rm=TRUE) #33.13923
+summary(famuss$ndrm.ch)
+```
+### Six number + NA is result is shown however five number only include min, max, 1st/3rd quartile, median
+
+e)
+
+```{r}
+#graphic summaries
+boxplot(famuss$ndrm.ch)
+hist(famuss$ndrm.ch)
+```
+
+f) I would use five number summary because it would allow me to assess the spread, outliers, shape, and center of the date compare to only looking at mean and standard deviation
+
+g) CC has the highest age ground around 23 with slight right skewness and CT/TT has age group of ~15 with mulitple outliers with right skewness.
+
+```{r}
+#graphical summary
+boxplot(age ~ actn3.r577x,data = famuss)
+```
+
+\newpage
+
+## Unit 2 
+
+### Useful Formatting Notes. 
+
+In the following problems, you may need to show your work by including equations. 
+
+It is best to enclose any in-line equations, including math operators, within two $ symbols, e.g. $0.40 + 0.02 = 0.42$. The following operators may be useful: $\times$, $\cdot$, $\cap$, $\cup$, and $\neq$. To create a superscript, $A^{C}$. To create a subscript, $A_{X}$.
+
+To typeset fractions, use the command $\dfrac{numerator}{denominator}$.
+
+For your convenience, the syntax for generating the PPV equation and Bayes' Rule is given:
+
+$P(D|T^+)= \dfrac{P(D)\cdot P(T^{+}|D)}{P(T)} =  \dfrac{P(T^{+}|D) \cdot P(D)}{[P(T^{+}|D) \cdot P(D)] + [P(T^{+}|D^C) \cdot P(D^C)]}$
+
+$P(A|B) =\dfrac{P(B|A)P(A)}{P(B)} = \dfrac{P(B|A)P(A)}{P(B|A)P(A)+P(B|A^{c})P(A^{c})}$
+
+\newpage
+
+### Problem 5. (\textit{10 pionts}) 
+
+Suppose you are helping the police develop a new test for blood alcohol levels. The potential advantage of the test is that it can be used during a routine traffic stop, but neither you nor the police are sure how accurate the test is. By design, the test should be positive when blood alcohol level is above $0.05\%.$
+
+The test has been used on a large number of subjects where a more expensive, less convenient test is known to give perfectly accurate results. The table below shows the joint distribution for the outcome of the new test and true blood alcohol status: 
+
+\begin{center}
+\begin{tabular}{l|rr}
+		& \multicolumn{2}{c}{\textbf{Alcohol level $>$ 0.05\%}} \\
+		\hline
+		\textbf{Test Result}  & \textbf{Yes}  & \textbf{No} \\
+		\textbf{Positive}  & $0.08$  & $0.30$ \\
+		\textbf{Negative}  & $0.02$  & $0.60$ \\
+\end{tabular}
+\end{center}
+	
+a) What is the probability that a randomly selected driver has both a positive test and a blood alcohol level higher than $0.05\%$? (\textit{2 pionts}) 
+	
+b) For a randomly selected driver, what is the probability that the test will be positive? (\textit{2 pionts}) 
+	
+c) Among drivers who have a positive test, what is the probability that a driver has a blood alcohol level higher than $0.05\%$? (\textit{2 pionts}) 
+	
+d) Suppose $A$ is the event that a driver has a positive test result and $B$ is the event that the driver has a blood alcohol level above $0.05\%$. 
+
+    i. Why might it be reasonable to expect that $A$ and $B$ are not independent? Explain your answer. (\textit{2 pionts}) 
+
+    ii. Are $A$ and $B$ independent? Justify your answer. (\textit{2 pionts}) 
+
+### Answwer: 
+
+a)P(positive and greater than 0.05 alcohol level) = 0.08
+
+b)P(Positive) = 0.08 + 0.3 = 0.38
+
+c)P(Alcohol level > 0.05 | Positive) = P(Alcohol level >0.05 and Positive)/P(Positive) = 0.08/0.38 = 0.2105
+
+d)A = P(Positive) = 0.38 ; B = P(Alcohol level > 0.05) = 0.08+ 0.02 = 0.10
+    
+  i. It is reasonable to suspect that people who are stopped for the test is likely to be a drunk driver aka alcohol level >0.05% which directly links to the likelihood of them being testing positive. However, this doesn't necessarily mean there is a causal relationship. Also majority of the results shows high true positive and true negative
+
+  ii. P(A and B) = 0.08
+  P(A or B) = (0.38)(0.10) = 0.038 which is not equal to P(A and B). Therefore, A and B are not independent.
+
+
+### Problem 6. (\textit{10 pionts}) 
+
+The strongest risk factor for breast cancer is age; as a woman gets older, her risk of developing breast cancer increases. The following table shows the average percentage of American women in each age group who develop breast cancer, according to statistics from the National Cancer Institute. For example, approximately 3.56\% of women in their 60's get breast cancer. 
+
+\begin{table}[htb!]
+	\caption{Prevalence of Breast Cancer by Age Group}
+	\centering
+	\begin{tabular}{l|l}
+		\textbf{Age Group}  & \textbf{Prevalence} \\ \hline
+		  30 - 40 &     0.0044                        \\
+		  40 - 50 &      0.0147                          \\
+		  50 - 60 &      0.0238                          \\
+		  60 - 70 &      0.0356                         \\
+		  70 - 80 &       0.0382                        \\ \hline
+	\end{tabular}
+\end{table}
+
+A mammogram typically identifies a breast cancer about 85\% of the time, and is correct 95\% of the time when a woman does not have breast cancer. 
+
+a) If a woman in her 60's has a positive mammogram, what is the likelihood that she has breast cancer? Solve this problem algebraically. (\textit{4 pionts}) 
+		
+
+b) Using whatever methods you wish, calculate the PPV for each age group; show your work. Describe the trend in PPV values as prevalence changes and explain the reasoning behind the relationship between prevalence and PPV. (\textit{4 pionts}) 
+
+c) Suppose that two new mammogram imaging technologies have been developed which can improve the PPV associated with mammograms; one improves sensitivity to 99\% (but specificity remains at 95\%), while the other improves specificity to 99\% (while sensitivity remains at 85\%). Which technology offers a higher increase in PPV? Explain your answer. (\textit{2 pionts}) 
+
+Some notes on including answers from an image:
+
+To include an image in your solutions, upload the image file to your pset_02 folder, then use the following syntax in the comment block (i.e. remove the <!--- and --->). You can either take a picture of a diagram/table drawn on paper or use software such as MS PowerPoint to draw a diagram/table. 
+
+<!---
+![](name_of_image.jpg)
+--->
+
+Some helpful syntax for including work done with the table method:
+
+\begin{tabular}{ r|c|c|c|}
+		\multicolumn{1}{r}{}
+		&  \multicolumn{1}{c}{Cancer}
+		& \multicolumn{1}{c}{No cancer}
+		& \multicolumn{1}{c}{Total} \\
+		\cline{2-4}
+		Positive & number & number & number \\
+		\cline{2-4}
+		Negative & number & number & number \\
+		\cline{2-4}
+		Total & number & number & number \\
+		\cline{2-4}
+\end{tabular}
+
+### Answwer: 
+
+a) 
+P(+mammogram) = P(+mammogram|cancer)xP(cancer) + P(+mammogram|No Cancer)xP(No Cancer) 
+= (0.85x0.0356)+[(1-0.95)x(1-0.0356)] 
+
+P(cancer|+mammogram) = P(+mammogram)xP(cancer)/P(+mammogram) 
+= [0.85x0.0356]/[(0.85x0.0356)+[(1-0.95)x(1-0.0356)]] = 0.3917
+
+
+b) 
+Relationship between PPV (Positive predictive value) and prevalence: P(Having cancer| +Mammogram)
+
+PPV = P(disease present|positive test)
+= P(disease present and postive test)/P(positive test)
+= (Prevalence x Sensitivity)/[P(True Positive) + P(False Positive)]  
+= (0.0044 x 0.85)/(0.0044x0.85)+[(1-0.95)x(1-0.0044)] = 0.06988042
+    
+\begin{table}[htb!]
+	\caption{Prevalence of Breast Cancer by Age Group}
+	\label{table:label}
+	\centering
+	\begin{tabular}{l|l|l}
+		\textbf{Age Group}  & \textbf{Prevalence} & \textbf{PPV}      \\ \hline
+		  30 - 40 &           0.0044          &     0.06988042            \\
+		  40 - 50 &           0.0147          &     0.2023154            \\
+		  50 - 60 &           0.0238          &     0.2930185            \\
+		  60 - 70 &           0.0356          &     0.3855759            \\
+		  70 - 80 &           0.0382          &     0.4030536            \\ \hline
+	\end{tabular}
+\end{table}
+
+
+```{r}
+#calculations
+#30-40
+(0.0044*0.85)/((0.0044*0.85)+((1-0.95)*(1-0.0044))) #0.06988042
+
+#40-50
+(0.0147*0.85)/((0.0147*0.85)+((1-0.95)*(1-0.0147))) #0.2023154
+
+#50-60
+(0.0238*0.85)/((0.0238*0.85)+((1-0.95)*(1-0.0238))) #0.2930185
+
+#60-70
+(0.0356*0.85)/((0.0356*0.85)+((1-0.95)*(1-0.0356))) #0.3855759
+
+#70-80
+(0.0382*0.85)/((0.0382*0.85)+((1-0.95)*(1-0.0382))) #0.4030536
+```
+
+c)Using Bayes Theorem as reference, the denominator is negatively impacted by false positive which is (1-specificity)*(1-prevalence)
+###Therefore, the technology with sensitivity of 99% and specificity of 95% increases the PPV greater compare to the technology with high specificity.
+
+
+\newpage
+
+## Unit 3 
+
+### Useful Formatting Notes. 
+
+It is best to enclose any in-line equations, including math operators, within two $ symbols, e.g. $0.40 + 0.02 = 0.42$. The following operators may be useful: $\times$, $\cdot$, $\cap$, $\cup$, $\neq$, $\geq$, and $\leq$. To create a superscript, $A^{C}$. To create a subscript, $P_{X}$. To use the square root symbol, $\sqrt{x}$.
+
+To typeset fractions, use the command $\dfrac{numerator}{denominator}$.
+
+For your convenience, the following syntax is given:
+
+\[\text{Var}(X)=E(X-\mu)^2=\sum_i^{k}P(X=x_i)(x_i-\mu)^2\]
+
+\[P(X=k) = \frac{e^{-\lambda} \cdot \lambda^k}{k!}\]
+
+<!---
+
+Using \[ and \] is another way to define a math environment, and is useful for entering single-line equations.
+
+The $$ syntax is not needed inside \[ \] or inside an align* environment. Similarly, the \[ \] syntax is not needed inside an align* environment.
+
+--->
+
+### Problem 7. (\textit{8 pionts})
+
+Let $X$ be a random variable with the following probability mass function:
+
+\begin{center}
+\begin{tabular}{c|cccc}
+$X = x$ & 0 & 1 & 2 & 3\\\hline
+$P(X=x)$ & 0.10 & 0.20 & 0.30 & 0.40\\
+\end{tabular}
+\end{center}
+
+a) Find $P(X\geq 2)$. (\textit{2 pionts})
+
+b) Find $P(X \geq 2|X\geq 1)$. (\textit{2 pionts})
+
+c) Find $E(X)$. (\textit{2 pionts})
+
+d) Find $\text{Var(X)}$. (\textit{2 pionts})
+
+### Answwer: 
+
+a)P(x greater than equal to 2) = P(x=2) + P(x=3)
+                             = 0.30 + 0.40 = 0.70
+
+
+
+b)Conditional Prob.
+P(x greater than equal to 2| x greater than equal to 1) = P(x greater than equal to 2 and x greater than equal to 1)/P(x greater than equal to 1)
+                                                        = P(x greater than equal to 2)/P(1-P(x less than equal to 1))
+                                                        = 0.70/(1-0.10)
+                                                        = 0.7/0.9 = 0.7778
+
+
+c)E(X) = Sum (x=0 to 3) x*p(X=x)
+     = 0*p(x=0) + 1*p(x=1) + 2*p(x=2) + 3*p(x=3)
+     = 0 + 1*0.20 + 2*0.30 + 3*0.40 = 2
+
+
+```{r}
+#use r as a calculator
+0 + 1*0.20 + 2*0.30 + 3*0.40 #2
+```
+
+
+d)
+E(X^2) = Sum (x=0 to 3) X^2*p(X=x)
+       = 0^2*p(X=0) + 1^2*p(X=1) + 2^2*p(X=2) + 3^2*p(X=3)
+       = 0 + 1*0.20 + 4*0.30 + 9*0.40 =5
+
+```{r}
+#use r as a calculator
+0 + 1*0.20 + 4*0.30 + 9*0.40
+```
+### Variance = E(X^2) - E^2(x) = 5-2^2 = 5-4 = 1
+
+
+\newpage
+### Problem 8. (\textit{8 pionts})
+
+According to data from the CDC, about 37.1\% of adults (individuals 18 years of age or older) in the United States and 57.9\% of children (individuals between 6 months and 17 years of age) in the United States received a flu vaccine during the 2017-2018 flu season. 
+
+a) Consider a random sample of 50 adults. 
+
+    i. Calculate the probability that exactly 20 adults received a flu vaccine. (\textit{2 pionts})
+    
+    ii. Calculate the probability that exactly 30 adults did not receive a flu vaccine. (\textit{2 pionts})
+
+b) Consider a random sample of 20 children. 
+
+    i. What is the probability that at most 10 children received a flu vaccine? (\textit{2 pionts})
+
+    ii. What is the probability that at least 11 children received a flu vaccine? (\textit{2 pionts})
+
+### Answwer: 
+
+a)
+
+  i.
+
+
+
+```{r}
+prob_adult = 0.371
+dbinom(20,50,prob_adult) #0.1047823
+```
+
+  ii.
+  
+  
+```{r}
+dbinom(30,50,prob_adult,1-prob_adult) #0.0005339743
+```
+
+
+b)
+
+  i. 
+  
+  
+```{r}
+prob_child = 0.579
+pbinom(10,20,prob_child) #0.309678
+```
+
+
+  ii.
+  
+  
+```{r}
+1-pbinom(10,20,prob_child) #0.690322
+```
+
+
+\newpage
+### Problem 9. (\textit{8 pionts})
+
+Consider a senior Statistics concentrator with a packed extracurricular schedule, taking five classes, and writing a thesis. Each time she takes an exam, she either scores very well (at least two standard deviations above the mean) or does not. Her performance on any given exam depends on whether she is operating on a reasonable amount of sleep the night before (more than 7 hours), relatively little sleep (between 4 - 7 hours, inclusive), or practically no sleep (less than 4 hours). 
+
+When she has had practically no sleep, she scores very well about 30\% of the time. When she has had relatively little sleep, she scores very well 40\% of the time. When she has had a reasonable amount of sleep, she scores very well 42\% of the time. Over the course of a semester, she has a reasonable amount of sleep 50\% of nights, and practically no sleep 30\% of nights.
+
+  a) What is her overall probability of scoring very well on an exam? (\textit{2 pionts})
+  
+  b) What is the probability she had practically no sleep the night before an exam where she scored very well? (\textit{2 pionts})
+    
+  c) Suppose that one day she has three exams scheduled. What is the probability that she scores very well on exactly two of the exams, under the assumption that her performance on each exam is independent of her performance on another exam? (\textit{2 pionts})
+    
+  d) What is the probability that she had practically no sleep the night prior to a day when she scored very well on exactly two out of three exams? (\textit{2 pionts})
+
+### Answwer: 
+
+P(A)=No sleep = 0.30
+P(B) = Little sleep = 0.20
+P(C) = reasonable sleep = 0.50
+P(D) = very well in exam 
+
+P(D|A) = 0.30
+P(D|B) = 0.40
+P(D|C) = 0.42
+
+a)P(D) = P(D|A)*P(A) + P(D|B)*P(B) + P(D|C)*P(C)
+     = (0.30*0.30) + (0.40*0.20) + (0.42*0.50) = 0.38
+```{r}
+(0.30*0.30) + (0.40*0.20) + (0.42*0.50) #0.38
+```
+
+b)no sleep given really well score
+P(A|D) = P(D|A)*P(A)/P(D)
+       = (0.30*0.30)/0.38 = 0.2368421
+```{r}
+(0.30*0.30)/0.38 #0.2368421
+```
+
+c)scores well on exactly two exams out of three with assumption of independent performance in each
+```{r}
+dbinom(2,3,0.38) #0.268584
+```
+
+d)P(A|D) = P(D|A)*P(A)/P(D) = 0.2368421
+```{r}
+dbinom(2,3,0.2368421) #0.1284262
+```
+
+
+\newpage
+### Problem 10. (\textit{2 pionts})
+
+This is a simple exercise in computing probabilities for a Poisson random variable. Suppose that $X$ is a Poisson random variable with rate parameter $\lambda = 2$.
+
+Use \textsf{R} to calculate each of the 3 probabilities in part a). (\textit{2 pionts})
+
+### Answwer: 
+
+```{r}
+lmda = 2
+# Equals to 2
+prob_1 = dpois(2,lmda) #0.579
+#Equal or less than 2
+prob_2 = ppois(2,lmda) #0.27067
+#more than 3
+prob_3 = ppois(2,lmda,lower.tail = FALSE) # 0.323324
+```
+
+
+\newpage
+### Problem 11. (\textit{8 pionts})
+
+Osteosarcoma is a relatively rare type of bone cancer.  It occurs most often in young adults, age 10 - 19; it is diagnosed in approximately 8 per 1,000,000 individuals per year in that age group. In New York City (including all five boroughs), the number of young adults in this age range is approximately 1,400,000.
+
+a) What is the expected number of cases of osteosarcoma in NYC in a given year? (\textit{2 pionts})
+	
+b) What is the probability that 15 or more cases will be diagnosed in a given year? (\textit{2 pionts})
+	
+c) The largest concentration of young adults in NYC is in the borough of Brooklyn, where the population in that age range is approximately 450,000.  What is the probability of 10 or more cases in Brooklyn in a given year? (\textit{2 pionts})
+	
+d) Suppose that over five years, there was one year in which 10 or more cases of osteosarcoma were observed in Brooklyn. Is the probability of this event equal to the probability calculated in part c)? Explain your answer. (\textit{2 pionts})
+
+### Answwer: 
+
+a)
+```{r}
+#use r as a calculator
+(8/1000000)*1400000 #11.2
+```
+
+b)
+```{r}
+prob_individuals = (8/1000000) 
+pbinom(14,1400000, prob_individuals,lower.tail = FALSE) #0.1608983
+```
+
+
+c)
+```{r}
+prob_cases = (8/1000000)
+pbinom(9,450000,prob_cases,lower.tail = FALSE) #0.004024102
+```
+
+
+d)No, probability will not be equal. As shown below, the probability of one year out of 5 where 10 or more cases observed is 0 and the prob. in part c is 0.004
+
+```{r}
+dbinom(9, 450000, 0.004024102) #0
+```
+
+\newpage
+### Problem 12. (\textit{10 pionts})
+
+Consider the standard normal distribution with mean $\mu=0$ and standard deviation $\sigma= 1$. 
+
+a) What is the probability that an outcome $z$ is greater than 2.30? (\textit{2 pionts})
+	
+b) What is the probability that $z$ is less than 1.45? (\textit{2 pionts})
+	
+c) What is the probability that $z$ is between -1.60 and 3.10? (\textit{2 pionts})
+	 
+d) What value of $z$ cuts off the upper 15\% of the distribution? (\textit{2 pionts})
+	
+e) What value of $z$ marks off the lower 20\% of the distribution? (\textit{2 pionts})
+
+
+### Answwer: 
+
+a)
+```{r}
+pnorm(2.3, lower.tail = FALSE) #0.01072411
+```
+
+
+b)
+```{r}
+pnorm(1.45) #0.9264707
+```
+
+
+c)
+```{r}
+pnorm(3.10)-pnorm(-1.6) #0.9442331
+```
+
+d)
+1-P(Z<z)=0.15
+P(Z<z) = 0.85
+P(Z<1.04) = 0.85
+###Answer 1.04
+```{r}
+pnorm(0.85)
+```
+
+e)
+P(Z<z) = 0.20
+P(Z<-0.84) = 0.20 
+###Answer -0.84
+```{r}
+pnorm(-0.84)
+```
+
+
+\newpage
+### Problem 13. (\textit{2 pionts})
+
+The World Health Organization defines osteoporosis in young adults as a measured bone mineral density 2.5 or more standard deviations below the mean for young adults. Assume that bone mineral density follows a normal distribution in young adults. What percentage of young adults suffer from osteoporosis according to this criterion? 
+
+### Answwer: 
+###P(z greater than equal to 2.5) = 0.00621 or 0.62%
+```{r}
+pnorm(-2.5)
+```
+
+
+\newpage
+### Problem 14. (\textit{6 pionts})
+
+(Based on Problem 1.136 in IPS, $6^{th}$ edition.) High blood cholesterol levels increase the risk of heart disease. Young women are generally less afflicted with high
+cholesterol than other groups. The cholesterol levels for women aged 20 to 34 years follow an approximately normal distribution with mean 185 milligrams per deciliter (mg/dl) and standard deviation 39 mg/dl.
+
+a) Cholesterol levels above 240 mg/dl demand medical attention. What percent of young women have levels above 240 mg/dl? (\textit{2 pionts})
+	
+b) Levels above 200 mg/dl are considered borderline high. What percent of young women have blood cholesterol between 200 and 240 mg/dl? (\textit{2 pionts})
+
+c) Among a random sample of 150 women in this age group, what is the probability that no more than 5 women have cholesterol levels that demand medical attention? (\textit{2 pionts})
+
+
+### Answwer: 
+
+a)
+
+```{r}
+z=(240-185)/39
+1-pnorm(z) #0.07923199
+```
+
+
+
+b)
+
+```{r}
+low_z = (200-185)/39
+pnorm(z)-pnorm(low_z) #0.2710292
+```
+
+
+c)
+
+```{r}
+(5/150)*pnorm(z)+(4/150)*pnorm(z)+(3/150)*pnorm(z)+(2/150)*pnorm(z)+(1/150)*pnorm(z) #0.0920768
+```
+
+
+
+\newpage
+### Problem 15. (\textit{6 pionts})
+
+Hemophilia is a sex-linked bleeding disorder that slows the blood clotting process. In severe cases of hemophilia, continued bleeding occurs after minor trauma or even in the absence of injury. Hemophilia affects 1 in 5,000 male births. In the United States, there are approximately 4,000,000 births per year. Assume that there are equal numbers of males and females born each year.
+
+  a) What is the probability that at most 390 newborns in a year are born with hemophilia? (\textit{2 pionts})
+  
+  b) What is the probability that 425 or more newborns in a year are born with hemophilia? (\textit{2 pionts})
+  
+  c) Consider a hypothetical country in which there are approximately 2 million births per year. If the incidence rate of hemophilia is equal to that in the US, as well as the sex ratio at birth, how many newborns are expected to have hemophilia over five years, and with what standard deviation? (\textit{2 pionts})
+   
+### Answwer: 
+
+a) 
+
+```{r}
+rate = (1/5000)*(4000000/2)
+ppois(390, lambda = rate) #0.3197029
+```
+
+b)
+
+```{r}
+ppois(425, lambda = rate, lower.tail = FALSE) #0.1020334
+```
+
+c)
+
+```{r}
+#use r as a calculator
+new.yearly.rate = (1/5000)*(2000000/2); new.yearly.rate
+years = 5
+five.year.rate = new.yearly.rate*years; five.year.rate
+sqrt(five.year.rate) #31.62278
+```
+

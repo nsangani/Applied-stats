@@ -1,0 +1,180 @@
+---
+title: "Assignment_2_Sangani"
+author: "Neel Sangani"
+date: "2022-10-30"
+output:
+  pdf_document:
+    fig_width: 5
+    fig_height: 3.5
+  html_document:
+    df_print: paged
+geometry: margin=1in
+fontsize: 11pt
+---
+
+## Unit 1
+## Problem 1.1 
+
+a) How many variables are included in this data file? Please specify the data types of these variables. Hint: options for data types are:  discrete numeric, continous numeric, ordinal categoric, and nominal categoric. (\textit{2 pionts})
+
+b) Which row has the smallest number of nursing home residents per 1000 population 65 years of age and over? Which raw has the largest number? Hint: use the \textsf{R} functions \texttt{which.min()} and \texttt{which.max()} to find the index of the row. (\textit{2 pionts})
+  	
+c) Which state has the smallest number of nursing home residents per 1000 population 65 years of age and over? Which state has the largest number? Hint: use the indexes found by the \textsf{R} functions \texttt{which.min()} and \texttt{which.max()} to index the state names. (\textit{2 pionts})
+  	
+d) Construct a boxplot for the number of nursing home residents per 1,000 population. (\textit{2 pionts})
+  	
+e) According to the boxplot, is the distribution of nursing home resident per 1000 population symmetric or skewed? Are there any states that could be considered outliers? (\textit{2 pionts})
+  	
+f) Display the number of nursing home residents per 1000 population using a histogram. Explain your choice of bin numbers. (\textit{2 pionts})
+
+
+## Problem 1.2
+
+a) Calculate the mean, standard deviation, and five-number summary for the distribution of adolescent fertility in 2006 ($\texttt{fert\_2006}$). (\textit{4 pionts})
+
+b) Note that the \texttt{summary()} command in \textsf{R} produces six numbers; specify which five belong in the five-number summary as defined in lecture. (\textit{2 pionts})
+		
+c) What is the ${75}^{th}$ percentile of the distribution? Write a sentence explaining the ${75}^{th}$ percentile in the context of this data. (\textit{2 pionts})
+		
+d) Use a single \texttt{boxplot} command to produce side-by-side boxplots of the fertility rates for each of the five years in the dataset. What pattern do you see? (\textit{2 pionts})
+
+## Problem 1.3
+
+a) How many variables are included in this data file? Please specify the data types of these variables. Hint: options for data types are:  discrete numeric, continous numeric, ordinal categoric, and nominal categoric. (\textit{2 pionts}) 
+
+b) Construct a two-way scatterplot for these data, with \texttt{fluoride} as the $x$-variable and \texttt{caries} as the $y$-variable. (\textit{2 pionts})
+
+c) Calculate the correlation between \texttt{fluoride} and \texttt{caries}. (\textit{2 pionts})
+		
+d) Do \texttt{fluoride} and \texttt{caries} appear to be positively or negatively associated? Explain your answer. (\textit{2 pionts})
+
+## Problem 1.4
+
+a) How many variables are included in this data file? Please specify the data types of these variables. Hint: options for data types are:  discrete numeric, continous numeric, ordinal categoric, and nominal categoric. (\textit{6 pionts}) 
+	
+b) Make a table of the genotypes for the SNP \texttt{actn3.r577x}. (\textit{2 pionts})
+		
+c) Construct a table of \texttt{actn3.r577x} by race, with the genotypes in the columns of the table and races in the rows. The command for creating a two-way table of categorical variables $x$ and $y$ is: \texttt{table(x, y)}. (\textit{2 pionts})
+
+d) Provide numerical summaries to describe the \texttt{ndrm.ch} variable. Use both the mean and standard deviation and the five-number summary. (\textit{4 pionts})
+
+e) Provide graphic summaries to describe the \texttt{ndrm.ch} variable. Use both boxplot and histogram. (\textit{4 pionts})
+		
+f) If you were to use numerical summaries to describe the \texttt{ndrm.ch} variable, would you prefer the mean and standard deviation or the five-number summary? Why? (\textit{2 pionts})
+		
+g) Produce a graphical summary that shows the association between \texttt{age} and genotype at the SNP \texttt{actn3.r577x}. Describe what you see. (\textit{4 pionts})
+
+
+## Unit 2
+
+## Problem 2.5
+
+a) What is the probability that a randomly selected driver has both a positive test and a blood alcohol level higher than $0.05\%$? (\textit{2 pionts}) 
+	
+b) For a randomly selected driver, what is the probability that the test will be positive? (\textit{2 pionts}) 
+	
+c) Among drivers who have a positive test, what is the probability that a driver has a blood alcohol level higher than $0.05\%$? (\textit{2 pionts}) 
+	
+d) Suppose $A$ is the event that a driver has a positive test result and $B$ is the event that the driver has a blood alcohol level above $0.05\%$. 
+
+    i. Why might it be reasonable to expect that $A$ and $B$ are not independent? Explain your answer. (\textit{2 pionts}) 
+
+    ii. Are $A$ and $B$ independent? Justify your answer. (\textit{2 pionts}) 
+
+## Problem 2.6
+
+a) If a woman in her 60's has a positive mammogram, what is the likelihood that she has breast cancer? Solve this problem algebraically. (\textit{4 pionts}) 
+		
+
+b) Using whatever methods you wish, calculate the PPV for each age group; show your work. Describe the trend in PPV values as prevalence changes and explain the reasoning behind the relationship between prevalence and PPV. (\textit{4 pionts}) 
+
+c) Suppose that two new mammogram imaging technologies have been developed which can improve the PPV associated with mammograms; one improves sensitivity to 99\% (but specificity remains at 95\%), while the other improves specificity to 99\% (while sensitivity remains at 85\%). Which technology offers a higher increase in PPV? Explain your answer. (\textit{2 pionts}) 
+
+
+## Unit 3
+
+## Problem 3.7
+
+a) Find $P(X\geq 2)$. (\textit{2 pionts})
+
+b) Find $P(X \geq 2|X\geq 1)$. (\textit{2 pionts})
+
+c) Find $E(X)$. (\textit{2 pionts})
+
+d) Find $\text{Var(X)}$. (\textit{2 pionts})
+
+## Problem 3.8
+
+a) Consider a random sample of 50 adults. 
+
+    i. Calculate the probability that exactly 20 adults received a flu vaccine. (\textit{2 pionts})
+    
+    ii. Calculate the probability that exactly 30 adults did not receive a flu vaccine. (\textit{2 pionts})
+
+b) Consider a random sample of 20 children. 
+
+    i. What is the probability that at most 10 children received a flu vaccine? (\textit{2 pionts})
+
+    ii. What is the probability that at least 11 children received a flu vaccine? (\textit{2 pionts})
+
+## Problem 3.9
+
+a) What is her overall probability of scoring very well on an exam? (\textit{2 pionts})
+  
+b) What is the probability she had practically no sleep the night before an exam where she scored very well? (\textit{2 pionts})
+    
+c) Suppose that one day she has three exams scheduled. What is the probability that she scores very well on exactly two of the exams, under the assumption that her performance on each exam is independent of her performance on another exam? (\textit{2 pionts})
+    
+d) What is the probability that she had practically no sleep the night prior to a day when she scored very well on exactly two out of three exams? (\textit{2 pionts})
+
+## Problem 3.10
+
+This is a simple exercise in computing probabilities for a Poisson random variable. Suppose that $X$ is a Poisson random variable with rate parameter $\lambda = 2$. Having 3 probabilities of Pr(X = 2), Pr(X $≤$ 2), and Pr(X $≥$ 3).
+
+Use \textsf{R} to calculate each of the 3 probabilities in part a). (\textit{2 pionts})
+
+## Problem 3.11
+
+a) What is the expected number of cases of osteosarcoma in NYC in a given year? (\textit{2 pionts})
+	
+b) What is the probability that 15 or more cases will be diagnosed in a given year? (\textit{2 pionts})
+	
+c) The largest concentration of young adults in NYC is in the borough of Brooklyn, where the population in that age range is approximately 450,000.  What is the probability of 10 or more cases in Brooklyn in a given year? (\textit{2 pionts})
+	
+d) Suppose that over five years, there was one year in which 10 or more cases of osteosarcoma were observed in Brooklyn. Is the probability of this event equal to the probability calculated in part c)? Explain your answer. (\textit{2 pionts})
+
+## Problem 3.12
+
+a) What is the probability that an outcome $z$ is greater than 2.30? (\textit{2 pionts})
+	
+b) What is the probability that $z$ is less than 1.45? (\textit{2 pionts})
+	
+c) What is the probability that $z$ is between -1.60 and 3.10? (\textit{2 pionts})
+	 
+d) What value of $z$ cuts off the upper 15\% of the distribution? (\textit{2 pionts})
+	
+e) What value of $z$ marks off the lower 20\% of the distribution? (\textit{2 pionts})
+
+## Problem 3.13
+
+The World Health Organization defines osteoporosis in young adults as a measured bone mineral
+density 2.5 or more standard deviations below the mean for young adults. Assume that bone
+mineral density follows a normal distribution in young adults. What percentage of young adults
+suffer from osteoporosis according to this criterion?
+
+## Problem 3.14
+
+a) Cholesterol levels above 240 mg/dl demand medical attention. What percent of young women have levels above 240 mg/dl? (\textit{2 pionts})
+	
+b) Levels above 200 mg/dl are considered borderline high. What percent of young women have blood cholesterol between 200 and 240 mg/dl? (\textit{2 pionts})
+
+c) Among a random sample of 150 women in this age group, what is the probability that no more than 5 women have cholesterol levels that demand medical attention? (\textit{2 pionts})
+
+## Problem 3.15
+
+a) What is the probability that at most 390 newborns in a year are born with hemophilia? (\textit{2 pionts})
+  
+b) What is the probability that 425 or more newborns in a year are born with hemophilia? (\textit{2 pionts})
+  
+c) Consider a hypothetical country in which there are approximately 2 million births per year. If the incidence rate of hemophilia is equal to that in the US, as well as the sex ratio at birth, how many newborns are expected to have hemophilia over five years, and with what standard deviation? (\textit{2 pionts})
+ 
